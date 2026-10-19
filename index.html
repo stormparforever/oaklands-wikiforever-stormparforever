@@ -3,838 +3,542 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oaklands WikiForever — StormparForever</title>
 
 <style>
 :root {
-  --bg: #080e19;
-  --panel: #101b2c;
-  --panel2: #0c1626;
-  --border: #263c56;
-  --accent: #35d5f2;
-  --accent-soft: #173d50;
-  --text: #eaf3ff;
-  --muted: #91a5bd;
-  --success: #78e6b0;
+  color-scheme: dark;
+  --background: #07111f;
+  --panel: #101e30;
+  --panel-light: #172a40;
+  --border: #263d55;
+  --text: #e7f1fb;
+  --muted: #9db1c6;
+  --cyan: #45d6ee;
 }
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  min-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-}
-
 body {
   margin: 0;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background: var(--bg);
+  background: var(--background);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
-button {
-  font: inherit;
-}
-
-.topbar {
-  min-height: 78px;
-  display: flex;
-  align-items: center;
-  padding: 16px 26px;
-  background: #0c1524;
+header {
+  padding: 22px 26px;
+  background: #0c192a;
   border-bottom: 1px solid var(--border);
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-}
-
-.brand-mark {
-  width: 43px;
-  height: 43px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid var(--accent);
-  border-radius: 11px;
-  font-size: 23px;
-  font-weight: 800;
-}
-
-.brand h1 {
+header h1 {
   margin: 0;
-  font-size: 19px;
+  font-size: 24px;
+  color: var(--cyan);
 }
 
-.brand p {
+header p {
   margin: 5px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: 245px minmax(0, 1fr);
-  align-items: start;
-  gap: 24px;
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 26px;
+  grid-template-columns: 230px minmax(0, 1fr);
+  min-height: calc(100vh - 90px);
 }
 
 .sidebar {
-  align-self: start;
-  padding: 19px 13px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 13px;
+  padding: 22px 14px;
+  background: #0a1727;
+  border-right: 1px solid var(--border);
 }
 
 .sidebar-title {
-  margin: 0 10px 16px;
+  margin: 0 10px 14px;
   color: var(--muted);
   font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.6px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
-.tree,
-.tree-children {
+.tree {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.tree-children {
-  margin-left: 15px;
-  padding-left: 11px;
-  border-left: 1px solid var(--border);
-}
-
-.tree-children[hidden] {
-  display: none !important;
-}
-
-.tree-button {
+.tree button {
   width: 100%;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 11px 9px;
-  color: var(--muted);
-  text-align: left;
-  background: transparent;
+  padding: 11px 12px;
   border: 1px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.tree-button:hover {
-  color: var(--text);
-  background: var(--panel2);
-}
-
-.tree-button.active {
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-color: #276078;
-}
-
-.tree-icon {
-  width: 18px;
-  flex-shrink: 0;
-  text-align: center;
-}
-
-.tree-label {
-  min-width: 0;
-  flex: 1;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.tree-arrow {
-  font-size: 11px;
-}
-
-.main {
-  min-width: 0;
-  width: 100%;
-}
-
-.category-card,
-.item-card {
-  width: 100%;
-  min-width: 0;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-}
-
-.category-card {
-  padding: 27px;
-}
-
-.category-card h2 {
-  margin: 0 0 10px;
-  font-size: 27px;
-}
-
-.category-description {
-  margin: 0 0 23px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.category-entry {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 15px;
+  border-radius: 7px;
+  background: transparent;
   color: var(--text);
   text-align: left;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  font: inherit;
   cursor: pointer;
 }
 
-.category-entry:hover {
-  background: #14243a;
-  border-color: var(--accent);
+.tree button:hover {
+  background: var(--panel-light);
 }
 
-.category-entry-icon {
-  width: 44px;
-  height: 44px;
+.tree button.active {
+  background: #15364a;
+  border-color: #28627a;
+  color: var(--cyan);
+}
+
+.tree .level-two {
+  margin-left: 13px;
+  width: calc(100% - 13px);
+}
+
+.tree .level-three {
+  margin-left: 26px;
+  width: calc(100% - 26px);
+  font-size: 14px;
+}
+
+.tree button[hidden] {
+  display: none;
+}
+
+main {
+  min-width: 0;
+  padding: 28px;
+}
+
+.view {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.view h2 {
+  margin: 0 0 8px;
+  font-size: 25px;
+}
+
+.subtitle {
+  margin: 0 0 22px;
+  color: var(--muted);
+}
+
+.panel {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.item-list {
   display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-radius: 9px;
-  font-size: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.category-entry strong {
+.item-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #0b192a;
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.item-card:hover {
+  border-color: var(--cyan);
+  background: var(--panel-light);
+}
+
+.item-card h3 {
+  margin: 0 0 6px;
+  color: var(--cyan);
+  font-size: 17px;
+}
+
+.item-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.item-heading {
+  margin-bottom: 20px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.item-heading h2 {
+  color: var(--cyan);
+}
+
+.tier {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border: 1px solid #28627a;
+  border-radius: 5px;
+  background: #103044;
+  color: var(--cyan);
+  font-size: 13px;
+}
+
+.section-title {
+  margin: 24px 0 12px;
+  font-size: 18px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stat {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.stat-label {
   display: block;
   margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.category-entry small {
   color: var(--muted);
   font-size: 12px;
 }
 
-/* ITEM HEADER */
-
-.item-header {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  padding: 26px;
-  background:
-    radial-gradient(
-      ellipse at 90% 0%,
-      rgba(38, 160, 199, 0.13),
-      transparent 55%
-    ),
-    var(--panel);
-  border-bottom: 1px solid var(--border);
-}
-
-.item-image {
-  width: 112px;
-  height: 112px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  color: var(--accent);
-  background: #0b1525;
-  border: 1px solid #29445f;
-  border-radius: 13px;
-  font-size: 50px;
-}
-
-.item-heading {
-  min-width: 0;
-}
-
-.item-heading h2 {
-  margin: 0;
-  font-size: clamp(25px, 4vw, 35px);
-  overflow-wrap: anywhere;
-}
-
-.item-subtitle {
-  margin: 9px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-/* ITEM STATISTICS AND DESCRIPTION */
-
-.item-content {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  align-items: stretch;
-  gap: 20px;
-  padding: 24px;
-}
-
-.section {
-  min-width: 0;
-  padding: 18px;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 11px;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0 0 18px;
-  font-size: 15px;
-  font-weight: 750;
-}
-
-.section-title span {
-  color: var(--accent);
-}
-
-.stats {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 0;
-  border-bottom: 1px solid #1d2c40;
-}
-
-.stat-row:first-child {
-  padding-top: 0;
-}
-
-.stat-row:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.stat-label {
-  color: var(--muted);
-  font-size: 13px;
-}
-
 .stat-value {
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 700;
-  text-align: right;
+  font-size: 16px;
+  font-weight: bold;
   overflow-wrap: anywhere;
-}
-
-.stat-value.available {
-  color: var(--success);
-}
-
-/*
-  DESCRIPTION SCROLL FIX
-
-  A bounded height makes the description scroll internally.
-  The rest of the document remains scrollable as normal.
-*/
-
-.description-scroll {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 280px;
-  max-height: 45vh;
-  min-height: 100px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: #42617d #101b2c;
-  padding: 0 9px 8px 0;
-}
-
-.description-scroll::-webkit-scrollbar {
-  width: 8px;
-}
-
-.description-scroll::-webkit-scrollbar-track {
-  background: #101b2c;
-  border-radius: 8px;
-}
-
-.description-scroll::-webkit-scrollbar-thumb {
-  background: #42617d;
-  border-radius: 8px;
-}
-
-.description-scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
 }
 
 .description {
-  color: #b6c6d9;
-  font-size: 13px;
-  line-height: 1.8;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
   overflow-wrap: anywhere;
-  white-space: pre-line;
 }
 
 .description p {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
 
 .description p:last-child {
   margin-bottom: 0;
 }
 
-/* UPDATE HISTORY */
-
-.history {
-  margin: 0 24px 24px;
-  padding: 19px;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 11px;
+.description-empty {
+  color: var(--muted);
 }
 
-.history-entry {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding-top: 14px;
-  border-top: 1px solid #1d2c40;
+[hidden] {
+  display: none !important;
 }
 
-.history-marker {
-  width: 9px;
-  height: 9px;
-  flex-shrink: 0;
-  margin-top: 5px;
-  background: var(--accent);
-  border-radius: 50%;
-}
+@media (max-width: 650px) {
+  header {
+    padding: 18px;
+  }
 
-.history-entry p {
-  margin: 0;
-  color: #b6c6d9;
-  font-size: 13px;
-  line-height: 1.7;
-}
+  header h1 {
+    font-size: 20px;
+  }
 
-.history-entry strong {
-  color: var(--text);
-}
-
-@media (max-width: 850px) {
   .layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 17px;
-    padding: 16px;
+    grid-template-columns: 1fr;
   }
 
-  .item-content {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .description-scroll {
-    height: 260px;
-    max-height: 50vh;
-  }
-}
-
-@media (max-width: 480px) {
-  .topbar {
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
     padding: 15px;
   }
 
-  .brand h1 {
-    font-size: 16px;
+  main {
+    padding: 18px 14px;
   }
 
-  .layout {
-    padding: 11px;
-  }
-
-  .item-header {
-    align-items: flex-start;
-    gap: 14px;
-    padding: 17px;
-  }
-
-  .item-image {
-    width: 78px;
-    height: 78px;
-    font-size: 35px;
-  }
-
-  .item-heading h2 {
-    font-size: 24px;
-  }
-
-  .item-content {
-    gap: 13px;
-    padding: 13px;
-  }
-
-  .section {
-    padding: 14px;
-  }
-
-  .description-scroll {
-    height: 240px;
-    max-height: 55vh;
-  }
-
-  .history {
-    margin: 0 13px 13px;
+  .stats {
+    grid-template-columns: 1fr;
   }
 }
 </style>
 </head>
 
 <body>
-<header class="topbar">
-  <div class="brand">
-    <div class="brand-mark">O</div>
-    <div>
-      <h1>Oaklands WikiForever</h1>
-      <p>StormparForever Edition</p>
-    </div>
-  </div>
+<header>
+  <h1>Oaklands WikiForever</h1>
+  <p>StormparForever Edition</p>
 </header>
 
 <div class="layout">
   <aside class="sidebar">
-    <h2 class="sidebar-title">Wiki</h2>
+    <p class="sidebar-title">Categories</p>
 
-    <nav class="tree" aria-label="Wiki categories">
+    <nav class="tree" aria-label="Item categories">
+      <button id="toolsButton" type="button">Tools</button>
+
       <button
-        class="tree-button"
-        id="tools-button"
+        id="axesButton"
+        class="level-two"
         type="button"
-        aria-expanded="false"
-      >
-        <span class="tree-icon">▰</span>
-        <span class="tree-label">Tools</span>
-        <span class="tree-arrow">▸</span>
-      </button>
+        hidden
+      >Axes</button>
 
-      <div class="tree-children" id="tools-children" hidden>
-        <button
-          class="tree-button"
-          id="axes-button"
-          type="button"
-          aria-expanded="false"
-        >
-          <span class="tree-icon">⚒</span>
-          <span class="tree-label">Axes</span>
-          <span class="tree-arrow">▸</span>
-        </button>
+      <button
+        id="rustyButton"
+        class="level-three"
+        type="button"
+        hidden
+      >Rusty Axe</button>
 
-        <div class="tree-children" id="axes-children" hidden>
-          <button
-            class="tree-button"
-            id="rusty-axe-button"
-            type="button"
-          >
-            <span class="tree-icon">◈</span>
-            <span class="tree-label">Rusty Axe</span>
-          </button>
-        </div>
-      </div>
+      <button
+        id="steelButton"
+        class="level-three"
+        type="button"
+        hidden
+      >Steel Axe</button>
     </nav>
   </aside>
 
-  <main class="main" id="main-content" aria-live="polite">
-    <section class="category-card">
-      <h2>Welcome to Oaklands WikiForever</h2>
-      <p class="category-description">
-        Select Tools in the wiki menu to begin browsing.
-      </p>
+  <main>
+    <section id="welcomeView" class="view">
+      <div class="panel">
+        <h2>Oaklands WikiForever</h2>
+        <p class="subtitle">
+          Select Tools to begin browsing the item hierarchy.
+        </p>
+      </div>
+    </section>
+
+    <section id="toolsView" class="view" hidden>
+      <h2>Tools</h2>
+      <p class="subtitle">Available tool categories.</p>
+
+      <div class="panel">
+        <button
+          class="item-card"
+          type="button"
+          onclick="openAxes()"
+        >
+          <h3>Axes</h3>
+          <p>View the available axes.</p>
+        </button>
+      </div>
+    </section>
+
+    <section id="axesView" class="view" hidden>
+      <h2>Axes</h2>
+      <p class="subtitle">Available axes and their item details.</p>
+
+      <div class="item-list">
+        <button
+          class="item-card"
+          type="button"
+          onclick="openItem('rusty')"
+        >
+          <h3>Rusty Axe</h3>
+          <p>Tier 1</p>
+        </button>
+
+        <button
+          class="item-card"
+          type="button"
+          onclick="openItem('steel')"
+        >
+          <h3>Steel Axe</h3>
+          <p>Tier 2</p>
+        </button>
+      </div>
+    </section>
+
+    <section id="itemView" class="view" hidden>
+      <div class="item-heading">
+        <h2 id="itemName"></h2>
+        <span id="itemTier" class="tier"></span>
+      </div>
+
+      <h3 class="section-title">Item Stats</h3>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-label">Swing Time</span>
+          <span id="swingTime" class="stat-value"></span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Swing Power</span>
+          <span id="swingPower" class="stat-value"></span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Swing Distance</span>
+          <span id="swingDistance" class="stat-value"></span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Store</span>
+          <span id="itemStore" class="stat-value"></span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Price</span>
+          <span id="itemPrice" class="stat-value"></span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Obtainability</span>
+          <span id="itemObtainability" class="stat-value"></span>
+        </div>
+      </div>
+
+      <h3 class="section-title">Description</h3>
+
+      <div id="itemDescription" class="description"></div>
     </section>
   </main>
 </div>
 
 <script>
-const wikiItems = {
-  rustyAxe: {
+const items = {
+  rusty: {
     name: "Rusty Axe",
-    icon: "⚒",
-    subtitle: "Tool information and in-game statistics",
+    tier: "Tier 1",
+    swingTime: "0.85s",
+    swingPower: "0.65s",
+    swingDistance: "12 studs",
+    store: "Oak Depot",
+    price: "134 Oakbucks",
+    obtainability: "Obtainable",
+    description: null
+  },
 
-    stats: [
-      { label: "Tier", value: "1" },
-      { label: "Swing Time", value: "0.85s" },
-      { label: "Swing Power", value: "0.65s" },
-      { label: "Range", value: "12 studs" },
-      { label: "Location", value: "Oak Depot" },
-      { label: "Price", value: "134 Oakbucks" },
-      {
-        label: "Availability",
-        value: "Obtainable",
-        style: "available"
-      }
-    ],
-
+  steel: {
+    name: "Steel Axe",
+    tier: "Tier 2",
+    swingTime: "1.5s",
+    swingPower: "0.7s",
+    swingDistance: "15 studs",
+    store: "Oak Depot",
+    price: "1,800 Oakbucks",
+    obtainability: "Obtainable",
     description: [
-      "The Rusty Axe is a tool listed in the Oaklands Tools category, under Axes.",
-      "This section contains information about the item and its recorded statistics."
-    ],
-
-    history: [
-      {
-        version: "Update 1.24",
-        text: "The listed price was reduced from 300 to 134 Oakbucks."
-      }
+      "Forged with 100% steel, this will do some serious damage (but faster).",
+      "It's an upgrade from the Rusty Axe by a little and is Tier 2, so everybody can do that tier's ores! Happy grinding."
     ]
   }
 };
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
+const views = {
+  welcome: document.getElementById("welcomeView"),
+  tools: document.getElementById("toolsView"),
+  axes: document.getElementById("axesView"),
+  item: document.getElementById("itemView")
+};
+
+const toolsButton = document.getElementById("toolsButton");
+const axesButton = document.getElementById("axesButton");
+const rustyButton = document.getElementById("rustyButton");
+const steelButton = document.getElementById("steelButton");
+
+function showView(viewName) {
+  Object.entries(views).forEach(([name, element]) => {
+    element.hidden = name !== viewName;
+  });
 }
 
-function setActive(id) {
-  document.querySelectorAll(".tree-button").forEach(button => {
-    button.classList.remove("active");
-    button.removeAttribute("aria-current");
-  });
+function setActive(button) {
+  [
+    toolsButton,
+    axesButton,
+    rustyButton,
+    steelButton
+  ].forEach(element => element.classList.remove("active"));
 
-  if (id) {
-    const button = document.getElementById(id);
+  if (button) {
     button.classList.add("active");
-    button.setAttribute("aria-current", "page");
   }
 }
 
-function renderTools() {
-  setActive("tools-button");
+function openTools() {
+  axesButton.hidden = true;
+  rustyButton.hidden = true;
+  steelButton.hidden = true;
 
-  document.getElementById("main-content").innerHTML = `
-    <section class="category-card">
-      <h2>Tools</h2>
-      <p class="category-description">
-        Browse the Tools category.
-      </p>
-
-      <button class="category-entry" id="open-axes" type="button">
-        <span class="category-entry-icon">⚒</span>
-        <span>
-          <strong>Axes</strong>
-          <small>Open the Axes category</small>
-        </span>
-      </button>
-    </section>
-  `;
-
-  document.getElementById("open-axes").addEventListener("click", openAxes);
-}
-
-function renderAxes() {
-  setActive("axes-button");
-
-  document.getElementById("main-content").innerHTML = `
-    <section class="category-card">
-      <h2>Axes</h2>
-      <p class="category-description">
-        Browse the Axes category.
-      </p>
-
-      <button class="category-entry" id="open-rusty-axe" type="button">
-        <span class="category-entry-icon">⚒</span>
-        <span>
-          <strong>Rusty Axe</strong>
-          <small>View item details and statistics</small>
-        </span>
-      </button>
-    </section>
-  `;
-
-  document.getElementById("open-rusty-axe").addEventListener("click", () => {
-    openItem("rustyAxe");
-  });
-}
-
-function renderItem(item) {
-  const stats = item.stats.map(stat => `
-    <div class="stat-row">
-      <span class="stat-label">${escapeHTML(stat.label)}</span>
-      <span class="stat-value ${stat.style || ""}">
-        ${escapeHTML(stat.value)}
-      </span>
-    </div>
-  `).join("");
-
-  const description = item.description.map(paragraph => `
-    <p>${escapeHTML(paragraph)}</p>
-  `).join("");
-
-  const history = item.history.map(entry => `
-    <div class="history-entry">
-      <span class="history-marker"></span>
-      <p>
-        <strong>${escapeHTML(entry.version)}</strong><br>
-        ${escapeHTML(entry.text)}
-      </p>
-    </div>
-  `).join("");
-
-  document.getElementById("main-content").innerHTML = `
-    <article class="item-card">
-      <header class="item-header">
-        <div class="item-image" aria-hidden="true">
-          ${escapeHTML(item.icon)}
-        </div>
-
-        <div class="item-heading">
-          <h2>${escapeHTML(item.name)}</h2>
-          <p class="item-subtitle">
-            ${escapeHTML(item.subtitle)}
-          </p>
-        </div>
-      </header>
-
-      <div class="item-content">
-        <section class="section">
-          <h3 class="section-title">
-            <span>▤</span>
-            Tool Statistics
-          </h3>
-
-          <div class="stats">${stats}</div>
-        </section>
-
-        <section class="section">
-          <h3 class="section-title">
-            <span>≡</span>
-            Item Description
-          </h3>
-
-          <div class="description-scroll" tabindex="0"
-               aria-label="Scrollable item description">
-            <div class="description">${description}</div>
-          </div>
-        </section>
-      </div>
-
-      <section class="history">
-        <h3 class="section-title">
-          <span>◷</span>
-          Update History
-        </h3>
-
-        ${history}
-      </section>
-    </article>
-  `;
-}
-
-function openItem(id) {
-  const item = wikiItems[id];
-  if (!item) return;
-
-  setActive("rusty-axe-button");
-  renderItem(item);
-}
-
-function setExpanded(buttonId, childrenId, expanded) {
-  const button = document.getElementById(buttonId);
-  const children = document.getElementById(childrenId);
-
-  button.setAttribute("aria-expanded", String(expanded));
-  children.hidden = !expanded;
-  button.querySelector(".tree-arrow").textContent = expanded ? "▾" : "▸";
+  showView("tools");
+  setActive(toolsButton);
 }
 
 function openAxes() {
-  setExpanded("tools-button", "tools-children", true);
-  setExpanded("axes-button", "axes-children", true);
-  renderAxes();
+  axesButton.hidden = false;
+  rustyButton.hidden = false;
+  steelButton.hidden = false;
+
+  showView("axes");
+  setActive(axesButton);
 }
 
-document.getElementById("tools-button").addEventListener("click", () => {
-  const expanded =
-    document.getElementById("tools-button").getAttribute("aria-expanded")
-    === "true";
+function openItem(itemId) {
+  const item = items[itemId];
 
-  if (expanded) {
-    setExpanded("tools-button", "tools-children", false);
-    setExpanded("axes-button", "axes-children", false);
-    setActive(null);
+  if (!item) return;
 
-    document.getElementById("main-content").innerHTML = `
-      <section class="category-card">
-        <h2>Welcome to Oaklands WikiForever</h2>
-        <p class="category-description">
-          Select Tools in the wiki menu to begin browsing.
-        </p>
-      </section>
-    `;
+  document.getElementById("itemName").textContent = item.name;
+  document.getElementById("itemTier").textContent = item.tier;
+  document.getElementById("swingTime").textContent = item.swingTime;
+  document.getElementById("swingPower").textContent = item.swingPower;
+  document.getElementById("swingDistance").textContent = item.swingDistance;
+  document.getElementById("itemStore").textContent = item.store;
+  document.getElementById("itemPrice").textContent = item.price;
+  document.getElementById("itemObtainability").textContent =
+    item.obtainability;
+
+  const description = document.getElementById("itemDescription");
+  description.replaceChildren();
+
+  if (item.description) {
+    item.description.forEach(text => {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      description.appendChild(paragraph);
+    });
   } else {
-    setExpanded("tools-button", "tools-children", true);
-    renderTools();
+    const paragraph = document.createElement("p");
+    paragraph.className = "description-empty";
+    paragraph.textContent = "Not provided";
+    description.appendChild(paragraph);
   }
-});
 
-document.getElementById("axes-button").addEventListener("click", () => {
-  const expanded =
-    document.getElementById("axes-button").getAttribute("aria-expanded")
-    === "true";
+  showView("item");
+  setActive(itemId === "rusty" ? rustyButton : steelButton);
+}
 
-  if (expanded) {
-    setExpanded("axes-button", "axes-children", false);
-    setActive("axes-button");
-    renderAxes();
-  } else {
-    setExpanded("tools-button", "tools-children", true);
-    setExpanded("axes-button", "axes-children", true);
-    renderAxes();
-  }
-});
+toolsButton.addEventListener("click", openTools);
+axesButton.addEventListener("click", openAxes);
+rustyButton.addEventListener("click", () => openItem("rusty"));
+steelButton.addEventListener("click", () => openItem("steel"));
 
-document.getElementById("rusty-axe-button").addEventListener("click", () => {
-  openItem("rustyAxe");
-});
-
-/* Start at the welcome screen. Rusty Axe does not open automatically. */
+// Start at the top level. No item opens automatically.
+showView("welcome");
 </script>
 </body>
 </html>
