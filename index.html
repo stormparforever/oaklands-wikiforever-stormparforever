@@ -50,23 +50,14 @@ header p {
 
 .layout {
   display: grid;
-  grid-template-columns: 230px minmax(0, 1fr);
-  min-height: calc(100vh - 90px);
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: calc(100vh - 80px);
 }
 
 .sidebar {
   padding: 22px 14px;
   background: #0a1727;
   border-right: 1px solid var(--border);
-}
-
-.sidebar-title {
-  margin: 0 10px 14px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
 }
 
 .tree {
@@ -108,18 +99,14 @@ header p {
   font-size: 14px;
 }
 
-.tree button[hidden] {
-  display: none;
-}
-
 main {
   min-width: 0;
-  padding: 28px;
+  padding: 26px;
 }
 
 .view {
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -184,6 +171,7 @@ main {
 }
 
 .item-heading h2 {
+  margin: 0;
   color: var(--cyan);
 }
 
@@ -198,8 +186,16 @@ main {
   font-size: 13px;
 }
 
+/* Stats and Description stay beside each other. */
+.item-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: start;
+  gap: 18px;
+}
+
 .section-title {
-  margin: 24px 0 12px;
+  margin: 0 0 12px;
   font-size: 18px;
 }
 
@@ -211,7 +207,7 @@ main {
 
 .stat {
   min-width: 0;
-  padding: 15px;
+  padding: 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--panel);
@@ -225,21 +221,27 @@ main {
 }
 
 .stat-value {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   overflow-wrap: anywhere;
 }
 
-.description {
-  padding: 20px;
+/* Existing Description box: content expands naturally. */
+.description-panel {
+  min-width: 0;
+  padding: 18px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--panel);
+}
+
+.description {
   overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .description p {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 }
 
 .description p:last-child {
@@ -254,31 +256,23 @@ main {
   display: none !important;
 }
 
-@media (max-width: 650px) {
-  header {
-    padding: 18px;
-  }
-
-  header h1 {
-    font-size: 20px;
-  }
-
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding: 15px;
-  }
-
+@media (max-width: 760px) {
   main {
     padding: 18px 14px;
   }
 
+  .item-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>
@@ -292,9 +286,7 @@ main {
 
 <div class="layout">
   <aside class="sidebar">
-    <p class="sidebar-title">Categories</p>
-
-    <nav class="tree" aria-label="Item categories">
+    <nav class="tree" aria-label="Item navigation">
       <button id="toolsButton" type="button">Tools</button>
 
       <button
@@ -325,7 +317,7 @@ main {
       <div class="panel">
         <h2>Oaklands WikiForever</h2>
         <p class="subtitle">
-          Select Tools to begin browsing the item hierarchy.
+          Select Tools to begin browsing.
         </p>
       </div>
     </section>
@@ -348,7 +340,7 @@ main {
 
     <section id="axesView" class="view" hidden>
       <h2>Axes</h2>
-      <p class="subtitle">Available axes and their item details.</p>
+      <p class="subtitle">Available axes.</p>
 
       <div class="item-list">
         <button
@@ -377,43 +369,51 @@ main {
         <span id="itemTier" class="tier"></span>
       </div>
 
-      <h3 class="section-title">Item Stats</h3>
+      <div class="item-details">
+        <section>
+          <h3 class="section-title">Item Stats</h3>
 
-      <div class="stats">
-        <div class="stat">
-          <span class="stat-label">Swing Time</span>
-          <span id="swingTime" class="stat-value"></span>
-        </div>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-label">Swing Time</span>
+              <span id="swingTime" class="stat-value"></span>
+            </div>
 
-        <div class="stat">
-          <span class="stat-label">Swing Power</span>
-          <span id="swingPower" class="stat-value"></span>
-        </div>
+            <div class="stat">
+              <span class="stat-label">Swing Power</span>
+              <span id="swingPower" class="stat-value"></span>
+            </div>
 
-        <div class="stat">
-          <span class="stat-label">Swing Distance</span>
-          <span id="swingDistance" class="stat-value"></span>
-        </div>
+            <div class="stat">
+              <span class="stat-label">Swing Distance</span>
+              <span id="swingDistance" class="stat-value"></span>
+            </div>
 
-        <div class="stat">
-          <span class="stat-label">Store</span>
-          <span id="itemStore" class="stat-value"></span>
-        </div>
+            <div class="stat">
+              <span class="stat-label">Store</span>
+              <span id="itemStore" class="stat-value"></span>
+            </div>
 
-        <div class="stat">
-          <span class="stat-label">Price</span>
-          <span id="itemPrice" class="stat-value"></span>
-        </div>
+            <div class="stat">
+              <span class="stat-label">Price</span>
+              <span id="itemPrice" class="stat-value"></span>
+            </div>
 
-        <div class="stat">
-          <span class="stat-label">Obtainability</span>
-          <span id="itemObtainability" class="stat-value"></span>
-        </div>
+            <div class="stat">
+              <span class="stat-label">Obtainability</span>
+              <span id="itemObtainability" class="stat-value"></span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="section-title">Description</h3>
+
+          <div class="description-panel">
+            <div id="itemDescription" class="description"></div>
+          </div>
+        </section>
       </div>
-
-      <h3 class="section-title">Description</h3>
-
-      <div id="itemDescription" class="description"></div>
     </section>
   </main>
 </div>
@@ -429,7 +429,7 @@ const items = {
     store: "Oak Depot",
     price: "134 Oakbucks",
     obtainability: "Obtainable",
-    description: null
+    description: []
   },
 
   steel: {
@@ -443,7 +443,7 @@ const items = {
     obtainability: "Obtainable",
     description: [
       "Forged with 100% steel, this will do some serious damage (but faster).",
-      "It's an upgrade from the Rusty Axe by a little and is Tier 2, so everybody can do that tier's ores! Happy grinding."
+      "It's an upgrade from the Rusty Axe by a little and is tier 2 so everybody can do that tier's ores! Happy grinding."
     ]
   }
 };
@@ -515,7 +515,7 @@ function openItem(itemId) {
   const description = document.getElementById("itemDescription");
   description.replaceChildren();
 
-  if (item.description) {
+  if (item.description.length > 0) {
     item.description.forEach(text => {
       const paragraph = document.createElement("p");
       paragraph.textContent = text;
@@ -537,7 +537,7 @@ axesButton.addEventListener("click", openAxes);
 rustyButton.addEventListener("click", () => openItem("rusty"));
 steelButton.addEventListener("click", () => openItem("steel"));
 
-// Start at the top level. No item opens automatically.
+// Start at the welcome screen; do not open an item automatically.
 showView("welcome");
 </script>
 </body>
