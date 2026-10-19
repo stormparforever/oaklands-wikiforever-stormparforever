@@ -2,855 +2,839 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oaklands WikiForever — StormparForever</title>
-
-  <style>
-    :root {
-      --background: #080e19;
-      --panel: #101b2c;
-      --panel-light: #15243a;
-      --border: #263c56;
-      --accent: #35d5f2;
-      --accent-soft: #173d50;
-      --text: #eaf3ff;
-      --muted: #91a5bd;
-      --success: #78e6b0;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--background);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    .app {
-      min-height: 100vh;
-    }
-
-    .topbar {
-      min-height: 82px;
-      display: flex;
-      align-items: center;
-      padding: 18px 30px;
-      background: #0c1524;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-mark {
-      width: 43px;
-      height: 43px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--accent);
-      border-radius: 11px;
-      color: var(--accent);
-      background: var(--accent-soft);
-      font-size: 23px;
-      font-weight: 800;
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 19px;
-      letter-spacing: 0.2px;
-    }
-
-    .brand p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 245px minmax(0, 1fr);
-      gap: 24px;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 28px;
-    }
-
-    .sidebar {
-      align-self: start;
-      padding: 20px 14px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-    }
-
-    .sidebar-title {
-      margin: 0 10px 17px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.6px;
-      text-transform: uppercase;
-    }
-
-    .tree,
-    .tree-children {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .tree-children {
-      margin-left: 15px;
-      padding-left: 12px;
-      border-left: 1px solid var(--border);
-    }
-
-    .tree-button {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 10px;
-      text-align: left;
-      color: var(--muted);
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      cursor: pointer;
-      transition:
-        background 0.15s ease,
-        color 0.15s ease,
-        border-color 0.15s ease;
-    }
-
-    .tree-button:hover {
-      color: var(--text);
-      background: var(--panel-light);
-    }
-
-    .tree-button.active {
-      color: var(--accent);
-      background: var(--accent-soft);
-      border-color: #276078;
-    }
-
-    .tree-icon {
-      width: 18px;
-      text-align: center;
-      font-size: 15px;
-    }
-
-    .tree-label {
-      flex: 1;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .tree-arrow {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .main {
-      min-width: 0;
-    }
-
-    .item-card {
-      overflow: hidden;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-    }
-
-    .item-header {
-      display: flex;
-      align-items: center;
-      gap: 23px;
-      padding: 27px;
-      background:
-        radial-gradient(
-          ellipse at 90% 0%,
-          rgba(38, 160, 199, 0.13),
-          transparent 55%
-        ),
-        var(--panel);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .item-image {
-      width: 118px;
-      height: 118px;
-      flex-shrink: 0;
-      display: grid;
-      place-items: center;
-      background: #0b1525;
-      border: 1px solid #29445f;
-      border-radius: 13px;
-      color: var(--accent);
-      font-size: 52px;
-    }
-
-    .item-heading {
-      min-width: 0;
-    }
-
-    .item-type {
-      margin-bottom: 9px;
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.7px;
-      text-transform: uppercase;
-    }
-
-    .item-heading h2 {
-      margin: 0;
-      font-size: clamp(25px, 4vw, 35px);
-      overflow-wrap: anywhere;
-    }
-
-    .item-subtitle {
-      margin: 9px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .item-content {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(230px, 0.8fr);
-      gap: 22px;
-      padding: 25px;
-    }
-
-    .section {
-      min-width: 0;
-      padding: 19px;
-      background: #0c1626;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin: 0 0 19px;
-      font-size: 15px;
-      font-weight: 750;
-    }
-
-    .section-title span {
-      color: var(--accent);
-    }
-
-    .stats {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      padding: 13px 0;
-      border-bottom: 1px solid #1d2c40;
-    }
-
-    .stat-row:first-child {
-      padding-top: 0;
-    }
-
-    .stat-row:last-child {
-      padding-bottom: 0;
-      border-bottom: 0;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .stat-value {
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 700;
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
-    .stat-value.available {
-      color: var(--success);
-    }
-
-    .description {
-      color: #b6c6d9;
-      font-size: 13px;
-      line-height: 1.8;
-      white-space: pre-line;
-    }
-
-    .description p {
-      margin: 0 0 14px;
-    }
-
-    .description p:last-child {
-      margin-bottom: 0;
-    }
-
-    .history {
-      margin: 0 25px 25px;
-      padding: 20px;
-      background: #0c1626;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-    }
-
-    .history-entry {
-      display: flex;
-      align-items: flex-start;
-      gap: 13px;
-      padding: 14px 0 0;
-      border-top: 1px solid #1d2c40;
-    }
-
-    .history-entry + .history-entry {
-      margin-top: 13px;
-    }
-
-    .history-marker {
-      width: 9px;
-      height: 9px;
-      flex-shrink: 0;
-      margin-top: 5px;
-      background: var(--accent);
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(53, 213, 242, 0.25);
-    }
-
-    .history-entry p {
-      margin: 0;
-      color: #b6c6d9;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .history-entry strong {
-      color: var(--text);
-    }
-
-    .category-card {
-      padding: 28px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-    }
-
-    .category-card h2 {
-      margin: 0 0 10px;
-      font-size: 27px;
-    }
-
-    .category-description {
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .category-entry {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 16px;
-      color: var(--text);
-      text-align: left;
-      background: #0c1626;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .category-entry:hover {
-      border-color: var(--accent);
-      background: var(--panel-light);
-    }
-
-    .category-entry-icon {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border-radius: 9px;
-      font-size: 22px;
-    }
-
-    .category-entry strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
-
-    .category-entry small {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    @media (max-width: 850px) {
-      .layout {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 17px;
-      }
-
-      .sidebar {
-        padding: 15px;
-      }
-
-      .tree-children {
-        margin-left: 10px;
-      }
-
-      .item-content {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .topbar {
-        padding: 16px;
-      }
-
-      .brand h1 {
-        font-size: 16px;
-      }
-
-      .layout {
-        padding: 12px;
-      }
-
-      .item-header {
-        align-items: flex-start;
-        gap: 15px;
-        padding: 18px;
-      }
-
-      .item-image {
-        width: 82px;
-        height: 82px;
-        font-size: 37px;
-      }
-
-      .item-heading h2 {
-        font-size: 24px;
-      }
-
-      .item-content {
-        padding: 14px;
-        gap: 14px;
-      }
-
-      .section {
-        padding: 15px;
-      }
-
-      .history {
-        margin: 0 14px 14px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oaklands WikiForever — StormparForever</title>
+
+<style>
+:root {
+  --bg: #080e19;
+  --panel: #101b2c;
+  --panel2: #0c1626;
+  --border: #263c56;
+  --accent: #35d5f2;
+  --accent-soft: #173d50;
+  --text: #eaf3ff;
+  --muted: #91a5bd;
+  --success: #78e6b0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.topbar {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  padding: 16px 26px;
+  background: #0c1524;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.brand-mark {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 11px;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.brand p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 26px;
+}
+
+.sidebar {
+  align-self: start;
+  padding: 19px 13px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.sidebar-title {
+  margin: 0 10px 16px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.tree,
+.tree-children {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tree-children {
+  margin-left: 15px;
+  padding-left: 11px;
+  border-left: 1px solid var(--border);
+}
+
+.tree-children[hidden] {
+  display: none !important;
+}
+
+.tree-button {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 9px;
+  color: var(--muted);
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tree-button:hover {
+  color: var(--text);
+  background: var(--panel2);
+}
+
+.tree-button.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: #276078;
+}
+
+.tree-icon {
+  width: 18px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.tree-label {
+  min-width: 0;
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tree-arrow {
+  font-size: 11px;
+}
+
+.main {
+  min-width: 0;
+  width: 100%;
+}
+
+.category-card,
+.item-card {
+  width: 100%;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.category-card {
+  padding: 27px;
+}
+
+.category-card h2 {
+  margin: 0 0 10px;
+  font-size: 27px;
+}
+
+.category-description {
+  margin: 0 0 23px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.category-entry {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  color: var(--text);
+  text-align: left;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.category-entry:hover {
+  background: #14243a;
+  border-color: var(--accent);
+}
+
+.category-entry-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 9px;
+  font-size: 22px;
+}
+
+.category-entry strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.category-entry small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ITEM HEADER */
+
+.item-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 26px;
+  background:
+    radial-gradient(
+      ellipse at 90% 0%,
+      rgba(38, 160, 199, 0.13),
+      transparent 55%
+    ),
+    var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.item-image {
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--accent);
+  background: #0b1525;
+  border: 1px solid #29445f;
+  border-radius: 13px;
+  font-size: 50px;
+}
+
+.item-heading {
+  min-width: 0;
+}
+
+.item-heading h2 {
+  margin: 0;
+  font-size: clamp(25px, 4vw, 35px);
+  overflow-wrap: anywhere;
+}
+
+.item-subtitle {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ITEM STATISTICS AND DESCRIPTION */
+
+.item-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: stretch;
+  gap: 20px;
+  padding: 24px;
+}
+
+.section {
+  min-width: 0;
+  padding: 18px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.section-title span {
+  color: var(--accent);
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #1d2c40;
+}
+
+.stat-row:first-child {
+  padding-top: 0;
+}
+
+.stat-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stat-value {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.stat-value.available {
+  color: var(--success);
+}
+
+/*
+  DESCRIPTION SCROLL FIX
+
+  A bounded height makes the description scroll internally.
+  The rest of the document remains scrollable as normal.
+*/
+
+.description-scroll {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 280px;
+  max-height: 45vh;
+  min-height: 100px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #42617d #101b2c;
+  padding: 0 9px 8px 0;
+}
+
+.description-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.description-scroll::-webkit-scrollbar-track {
+  background: #101b2c;
+  border-radius: 8px;
+}
+
+.description-scroll::-webkit-scrollbar-thumb {
+  background: #42617d;
+  border-radius: 8px;
+}
+
+.description-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+.description {
+  color: #b6c6d9;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.description p {
+  margin: 0 0 14px;
+}
+
+.description p:last-child {
+  margin-bottom: 0;
+}
+
+/* UPDATE HISTORY */
+
+.history {
+  margin: 0 24px 24px;
+  padding: 19px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.history-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #1d2c40;
+}
+
+.history-marker {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  margin-top: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.history-entry p {
+  margin: 0;
+  color: #b6c6d9;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.history-entry strong {
+  color: var(--text);
+}
+
+@media (max-width: 850px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 17px;
+    padding: 16px;
+  }
+
+  .item-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .description-scroll {
+    height: 260px;
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 15px;
+  }
+
+  .brand h1 {
+    font-size: 16px;
+  }
+
+  .layout {
+    padding: 11px;
+  }
+
+  .item-header {
+    align-items: flex-start;
+    gap: 14px;
+    padding: 17px;
+  }
+
+  .item-image {
+    width: 78px;
+    height: 78px;
+    font-size: 35px;
+  }
+
+  .item-heading h2 {
+    font-size: 24px;
+  }
+
+  .item-content {
+    gap: 13px;
+    padding: 13px;
+  }
+
+  .section {
+    padding: 14px;
+  }
+
+  .description-scroll {
+    height: 240px;
+    max-height: 55vh;
+  }
+
+  .history {
+    margin: 0 13px 13px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <div class="app">
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-mark">O</div>
-        <div>
-          <h1>Oaklands WikiForever</h1>
-          <p>StormparForever Edition</p>
-        </div>
-      </div>
-    </header>
-
-    <div class="layout">
-      <aside class="sidebar">
-        <h2 class="sidebar-title">Wiki</h2>
-
-        <nav class="tree" aria-label="Wiki categories">
-          <button
-            class="tree-button"
-            id="tools-button"
-            type="button"
-            aria-expanded="true"
-          >
-            <span class="tree-icon">▰</span>
-            <span class="tree-label">Tools</span>
-            <span class="tree-arrow">▾</span>
-          </button>
-
-          <div class="tree-children" id="tools-children">
-            <button
-              class="tree-button"
-              id="axes-button"
-              type="button"
-              aria-expanded="true"
-            >
-              <span class="tree-icon">⚒</span>
-              <span class="tree-label">Axes</span>
-              <span class="tree-arrow">▾</span>
-            </button>
-
-            <div class="tree-children" id="axes-children">
-              <button
-                class="tree-button active"
-                id="rusty-axe-button"
-                type="button"
-                aria-current="page"
-              >
-                <span class="tree-icon">◈</span>
-                <span class="tree-label">Rusty Axe</span>
-              </button>
-            </div>
-          </div>
-        </nav>
-      </aside>
-
-      <main class="main" id="main-content">
-        <!-- The selected item's reusable detail layout is rendered here. -->
-      </main>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">O</div>
+    <div>
+      <h1>Oaklands WikiForever</h1>
+      <p>StormparForever Edition</p>
     </div>
   </div>
+</header>
 
-  <script>
-    /*
-      ITEM DATA
+<div class="layout">
+  <aside class="sidebar">
+    <h2 class="sidebar-title">Wiki</h2>
 
-      Add future items to this object and give each one the same fields.
-      Every item will use the same item-detail layout automatically.
+    <nav class="tree" aria-label="Wiki categories">
+      <button
+        class="tree-button"
+        id="tools-button"
+        type="button"
+        aria-expanded="false"
+      >
+        <span class="tree-icon">▰</span>
+        <span class="tree-label">Tools</span>
+        <span class="tree-arrow">▸</span>
+      </button>
 
-      No search functionality or search interface is included.
-    */
+      <div class="tree-children" id="tools-children" hidden>
+        <button
+          class="tree-button"
+          id="axes-button"
+          type="button"
+          aria-expanded="false"
+        >
+          <span class="tree-icon">⚒</span>
+          <span class="tree-label">Axes</span>
+          <span class="tree-arrow">▸</span>
+        </button>
 
-    const wikiItems = {
-      rustyAxe: {
-        id: "rustyAxe",
-        name: "Rusty Axe",
-        category: "Tools / Axes",
-        tier: "Tier 1",
-        icon: "⚒",
-        subtitle: "Tool information and in-game statistics",
-
-        stats: [
-          { label: "Tier", value: "1" },
-          { label: "Swing Time", value: "0.85s" },
-          { label: "Swing Power", value: "0.65s" },
-          { label: "Range", value: "12 studs" },
-          { label: "Location", value: "Oak Depot" },
-          { label: "Price", value: "134 Oakbucks" },
-          {
-            label: "Availability",
-            value: "Obtainable",
-            style: "available"
-          }
-        ],
-
-        description: [
-          "The Rusty Axe is a tool listed in the Oaklands Tools category, under Axes.",
-          "This page contains its recorded statistics, location, price, and update history."
-        ],
-
-        history: [
-          {
-            version: "Update 1.24",
-            text: "The listed price was reduced from 300 to 134 Oakbucks."
-          }
-        ]
-      }
-    };
-
-    /*
-      REUSABLE ITEM DETAIL TEMPLATE
-
-      The same function renders every item, keeping the stats,
-      description, and history sections consistent.
-    */
-
-    function renderItem(item) {
-      const main = document.getElementById("main-content");
-
-      const statsHTML = item.stats.map(stat => `
-        <div class="stat-row">
-          <span class="stat-label">${escapeHTML(stat.label)}</span>
-          <span class="stat-value ${stat.style || ""}">
-            ${escapeHTML(stat.value)}
-          </span>
+        <div class="tree-children" id="axes-children" hidden>
+          <button
+            class="tree-button"
+            id="rusty-axe-button"
+            type="button"
+          >
+            <span class="tree-icon">◈</span>
+            <span class="tree-label">Rusty Axe</span>
+          </button>
         </div>
-      `).join("");
+      </div>
+    </nav>
+  </aside>
 
-      const descriptionHTML = item.description.map(paragraph => `
-        <p>${escapeHTML(paragraph)}</p>
-      `).join("");
+  <main class="main" id="main-content" aria-live="polite">
+    <section class="category-card">
+      <h2>Welcome to Oaklands WikiForever</h2>
+      <p class="category-description">
+        Select Tools in the wiki menu to begin browsing.
+      </p>
+    </section>
+  </main>
+</div>
 
-      const historyHTML = item.history.length
-        ? `
-          <section class="history">
-            <h3 class="section-title">
-              <span>◷</span>
-              Update History
-            </h3>
+<script>
+const wikiItems = {
+  rustyAxe: {
+    name: "Rusty Axe",
+    icon: "⚒",
+    subtitle: "Tool information and in-game statistics",
 
-            ${item.history.map(entry => `
-              <div class="history-entry">
-                <span class="history-marker"></span>
-                <p>
-                  <strong>${escapeHTML(entry.version)}</strong><br>
-                  ${escapeHTML(entry.text)}
-                </p>
-              </div>
-            `).join("")}
-          </section>
-        `
-        : "";
+    stats: [
+      { label: "Tier", value: "1" },
+      { label: "Swing Time", value: "0.85s" },
+      { label: "Swing Power", value: "0.65s" },
+      { label: "Range", value: "12 studs" },
+      { label: "Location", value: "Oak Depot" },
+      { label: "Price", value: "134 Oakbucks" },
+      {
+        label: "Availability",
+        value: "Obtainable",
+        style: "available"
+      }
+    ],
 
-      main.innerHTML = `
-        <article class="item-card">
-          <header class="item-header">
-            <div class="item-image" aria-hidden="true">
-              ${escapeHTML(item.icon)}
-            </div>
+    description: [
+      "The Rusty Axe is a tool listed in the Oaklands Tools category, under Axes.",
+      "This section contains information about the item and its recorded statistics."
+    ],
 
-            <div class="item-heading">
-              <div class="item-type">
-                ${escapeHTML(item.category)}
-              </div>
+    history: [
+      {
+        version: "Update 1.24",
+        text: "The listed price was reduced from 300 to 134 Oakbucks."
+      }
+    ]
+  }
+};
 
-              <h2>${escapeHTML(item.name)}</h2>
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
 
-              <p class="item-subtitle">
-                ${escapeHTML(item.subtitle)}
-              </p>
-            </div>
-          </header>
+function setActive(id) {
+  document.querySelectorAll(".tree-button").forEach(button => {
+    button.classList.remove("active");
+    button.removeAttribute("aria-current");
+  });
 
-          <div class="item-content">
-            <section class="section">
-              <h3 class="section-title">
-                <span>▤</span>
-                Tool Statistics
-              </h3>
+  if (id) {
+    const button = document.getElementById(id);
+    button.classList.add("active");
+    button.setAttribute("aria-current", "page");
+  }
+}
 
-              <div class="stats">
-                ${statsHTML}
-              </div>
-            </section>
+function renderTools() {
+  setActive("tools-button");
 
-            <section class="section">
-              <h3 class="section-title">
-                <span>≡</span>
-                Item Description
-              </h3>
+  document.getElementById("main-content").innerHTML = `
+    <section class="category-card">
+      <h2>Tools</h2>
+      <p class="category-description">
+        Browse the Tools category.
+      </p>
 
-              <div class="description">
-                ${descriptionHTML}
-              </div>
-            </section>
+      <button class="category-entry" id="open-axes" type="button">
+        <span class="category-entry-icon">⚒</span>
+        <span>
+          <strong>Axes</strong>
+          <small>Open the Axes category</small>
+        </span>
+      </button>
+    </section>
+  `;
+
+  document.getElementById("open-axes").addEventListener("click", openAxes);
+}
+
+function renderAxes() {
+  setActive("axes-button");
+
+  document.getElementById("main-content").innerHTML = `
+    <section class="category-card">
+      <h2>Axes</h2>
+      <p class="category-description">
+        Browse the Axes category.
+      </p>
+
+      <button class="category-entry" id="open-rusty-axe" type="button">
+        <span class="category-entry-icon">⚒</span>
+        <span>
+          <strong>Rusty Axe</strong>
+          <small>View item details and statistics</small>
+        </span>
+      </button>
+    </section>
+  `;
+
+  document.getElementById("open-rusty-axe").addEventListener("click", () => {
+    openItem("rustyAxe");
+  });
+}
+
+function renderItem(item) {
+  const stats = item.stats.map(stat => `
+    <div class="stat-row">
+      <span class="stat-label">${escapeHTML(stat.label)}</span>
+      <span class="stat-value ${stat.style || ""}">
+        ${escapeHTML(stat.value)}
+      </span>
+    </div>
+  `).join("");
+
+  const description = item.description.map(paragraph => `
+    <p>${escapeHTML(paragraph)}</p>
+  `).join("");
+
+  const history = item.history.map(entry => `
+    <div class="history-entry">
+      <span class="history-marker"></span>
+      <p>
+        <strong>${escapeHTML(entry.version)}</strong><br>
+        ${escapeHTML(entry.text)}
+      </p>
+    </div>
+  `).join("");
+
+  document.getElementById("main-content").innerHTML = `
+    <article class="item-card">
+      <header class="item-header">
+        <div class="item-image" aria-hidden="true">
+          ${escapeHTML(item.icon)}
+        </div>
+
+        <div class="item-heading">
+          <h2>${escapeHTML(item.name)}</h2>
+          <p class="item-subtitle">
+            ${escapeHTML(item.subtitle)}
+          </p>
+        </div>
+      </header>
+
+      <div class="item-content">
+        <section class="section">
+          <h3 class="section-title">
+            <span>▤</span>
+            Tool Statistics
+          </h3>
+
+          <div class="stats">${stats}</div>
+        </section>
+
+        <section class="section">
+          <h3 class="section-title">
+            <span>≡</span>
+            Item Description
+          </h3>
+
+          <div class="description-scroll" tabindex="0"
+               aria-label="Scrollable item description">
+            <div class="description">${description}</div>
           </div>
+        </section>
+      </div>
 
-          ${historyHTML}
-        </article>
-      `;
-    }
+      <section class="history">
+        <h3 class="section-title">
+          <span>◷</span>
+          Update History
+        </h3>
 
-    /*
-      CATEGORY VIEWS
+        ${history}
+      </section>
+    </article>
+  `;
+}
 
-      Only the approved hierarchy is shown:
-      Tools → Axes → Rusty Axe
-    */
+function openItem(id) {
+  const item = wikiItems[id];
+  if (!item) return;
 
-    function renderCategory(category) {
-      const main = document.getElementById("main-content");
+  setActive("rusty-axe-button");
+  renderItem(item);
+}
 
-      if (category === "tools") {
-        main.innerHTML = `
-          <section class="category-card">
-            <h2>Tools</h2>
-            <p class="category-description">
-              Browse the tools documented in the Oaklands WikiForever.
-            </p>
+function setExpanded(buttonId, childrenId, expanded) {
+  const button = document.getElementById(buttonId);
+  const children = document.getElementById(childrenId);
 
-            <button class="category-entry" id="open-axes" type="button">
-              <span class="category-entry-icon">⚒</span>
-              <span>
-                <strong>Axes</strong>
-                <small>View the Axes category</small>
-              </span>
-            </button>
-          </section>
-        `;
+  button.setAttribute("aria-expanded", String(expanded));
+  children.hidden = !expanded;
+  button.querySelector(".tree-arrow").textContent = expanded ? "▾" : "▸";
+}
 
-        document
-          .getElementById("open-axes")
-          .addEventListener("click", () => {
-            selectCategory("axes");
-          });
+function openAxes() {
+  setExpanded("tools-button", "tools-children", true);
+  setExpanded("axes-button", "axes-children", true);
+  renderAxes();
+}
 
-        return;
-      }
+document.getElementById("tools-button").addEventListener("click", () => {
+  const expanded =
+    document.getElementById("tools-button").getAttribute("aria-expanded")
+    === "true";
 
-      if (category === "axes") {
-        main.innerHTML = `
-          <section class="category-card">
-            <h2>Axes</h2>
-            <p class="category-description">
-              View the axe item documented in this edition of the wiki.
-            </p>
+  if (expanded) {
+    setExpanded("tools-button", "tools-children", false);
+    setExpanded("axes-button", "axes-children", false);
+    setActive(null);
 
-            <button
-              class="category-entry"
-              id="open-rusty-axe"
-              type="button"
-            >
-              <span class="category-entry-icon">⚒</span>
-              <span>
-                <strong>Rusty Axe</strong>
-                <small>View item details and statistics</small>
-              </span>
-            </button>
-          </section>
-        `;
+    document.getElementById("main-content").innerHTML = `
+      <section class="category-card">
+        <h2>Welcome to Oaklands WikiForever</h2>
+        <p class="category-description">
+          Select Tools in the wiki menu to begin browsing.
+        </p>
+      </section>
+    `;
+  } else {
+    setExpanded("tools-button", "tools-children", true);
+    renderTools();
+  }
+});
 
-        document
-          .getElementById("open-rusty-axe")
-          .addEventListener("click", () => {
-            selectItem("rustyAxe");
-          });
-      }
-    }
+document.getElementById("axes-button").addEventListener("click", () => {
+  const expanded =
+    document.getElementById("axes-button").getAttribute("aria-expanded")
+    === "true";
 
-    function setActiveTreeItem(activeId) {
-      const buttons = [
-        "tools-button",
-        "axes-button",
-        "rusty-axe-button"
-      ];
+  if (expanded) {
+    setExpanded("axes-button", "axes-children", false);
+    setActive("axes-button");
+    renderAxes();
+  } else {
+    setExpanded("tools-button", "tools-children", true);
+    setExpanded("axes-button", "axes-children", true);
+    renderAxes();
+  }
+});
 
-      buttons.forEach(id => {
-        const button = document.getElementById(id);
+document.getElementById("rusty-axe-button").addEventListener("click", () => {
+  openItem("rustyAxe");
+});
 
-        button.classList.remove("active");
-        button.removeAttribute("aria-current");
-      });
-
-      if (activeId) {
-        const activeButton = document.getElementById(activeId);
-
-        activeButton.classList.add("active");
-        activeButton.setAttribute("aria-current", "page");
-      }
-    }
-
-    function selectCategory(category) {
-      if (category === "tools") {
-        setActiveTreeItem("tools-button");
-        renderCategory("tools");
-      } else if (category === "axes") {
-        setActiveTreeItem("axes-button");
-        renderCategory("axes");
-      }
-    }
-
-    function selectItem(itemId) {
-      const item = wikiItems[itemId];
-
-      if (!item) {
-        return;
-      }
-
-      setActiveTreeItem("rusty-axe-button");
-      renderItem(item);
-    }
-
-    /*
-      Safe text insertion for item data.
-    */
-
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, character => {
-        const replacements = {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        };
-
-        return replacements[character];
-      });
-    }
-
-    /*
-      Expand or collapse the existing hierarchy.
-      No extra menus, breadcrumbs, or back buttons.
-    */
-
-    function toggleTree(buttonId, childrenId) {
-      const button = document.getElementById(buttonId);
-      const children = document.getElementById(childrenId);
-      const expanded = button.getAttribute("aria-expanded") === "true";
-
-      button.setAttribute("aria-expanded", String(!expanded));
-      children.hidden = expanded;
-
-      const arrow = button.querySelector(".tree-arrow");
-      arrow.textContent = expanded ? "▸" : "▾";
-    }
-
-    document
-      .getElementById("tools-button")
-      .addEventListener("click", () => {
-        toggleTree("tools-button", "tools-children");
-        selectCategory("tools");
-      });
-
-    document
-      .getElementById("axes-button")
-      .addEventListener("click", () => {
-        toggleTree("axes-button", "axes-children");
-        selectCategory("axes");
-      });
-
-    document
-      .getElementById("rusty-axe-button")
-      .addEventListener("click", () => {
-        selectItem("rustyAxe");
-      });
-
-    /*
-      Open directly to the Rusty Axe item page.
-    */
-
-    selectItem("rustyAxe");
-  </script>
+/* Start at the welcome screen. Rusty Axe does not open automatically. */
+</script>
 </body>
 </html>
