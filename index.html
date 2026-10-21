@@ -20,9 +20,7 @@
   --accent: #8ddcff;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -34,9 +32,7 @@ body {
   line-height: 1.5;
 }
 
-button {
-  font: inherit;
-}
+button { font: inherit; }
 
 .site-header {
   background: var(--header);
@@ -98,9 +94,7 @@ button {
   transition: background 0.15s ease;
 }
 
-.nav-button:hover {
-  background: #21415c;
-}
+.nav-button:hover { background: #21415c; }
 
 .nav-button.active {
   background: var(--selected);
@@ -128,9 +122,7 @@ button {
   max-width: 1000px;
 }
 
-.page.active {
-  display: block;
-}
+.page.active { display: block; }
 
 h1 {
   margin: 0 0 8px;
@@ -144,9 +136,7 @@ h2 {
   line-height: 1.4;
 }
 
-.muted {
-  color: var(--muted);
-}
+.muted { color: var(--muted); }
 
 .tier {
   margin: 0 0 20px;
@@ -178,9 +168,7 @@ h2 {
   background: var(--panel-hover);
 }
 
-.category-card h2 {
-  margin-bottom: 4px;
-}
+.category-card h2 { margin-bottom: 4px; }
 
 .category-card p {
   margin: 0;
@@ -211,13 +199,8 @@ h2 {
   border-color: var(--accent);
 }
 
-.axe-card h2 {
-  margin-bottom: 4px;
-}
-
-.axe-card .tier {
-  margin: 0;
-}
+.axe-card h2 { margin-bottom: 4px; }
+.axe-card .tier { margin: 0; }
 
 .item-details {
   display: grid;
@@ -227,9 +210,7 @@ h2 {
   margin-top: 22px;
 }
 
-.detail-section {
-  min-width: 0;
-}
+.detail-section { min-width: 0; }
 
 .stats-box,
 .description-box {
@@ -274,22 +255,12 @@ h2 {
   overflow-wrap: anywhere;
 }
 
-.description-box p:last-child {
-  margin-bottom: 0;
-}
+.description-box p:last-child { margin-bottom: 0; }
 
 @media (max-width: 700px) {
-  .site-header {
-    padding: 18px;
-  }
-
-  .site-title {
-    font-size: 23px;
-  }
-
-  .layout {
-    min-height: calc(100vh - 84px);
-  }
+  .site-header { padding: 18px; }
+  .site-title { font-size: 23px; }
+  .layout { min-height: calc(100vh - 84px); }
 
   .sidebar {
     flex: 0 0 130px;
@@ -308,17 +279,9 @@ h2 {
     padding-left: 6px;
   }
 
-  .main-content {
-    padding: 18px 12px;
-  }
-
-  h1 {
-    font-size: 23px;
-  }
-
-  h2 {
-    font-size: 17px;
-  }
+  .main-content { padding: 18px 12px; }
+  h1 { font-size: 23px; }
+  h2 { font-size: 17px; }
 
   .item-details {
     grid-template-columns: minmax(0, 1fr);
@@ -326,9 +289,7 @@ h2 {
   }
 
   .stats-box,
-  .description-box {
-    padding: 12px;
-  }
+  .description-box { padding: 12px; }
 
   .stat-row {
     gap: 8px;
@@ -345,32 +306,25 @@ h2 {
 </header>
 
 <div class="layout">
-
   <aside class="sidebar">
     <div class="sidebar-heading">Navigation</div>
+
     <nav id="navigation" class="nav-tree" aria-label="Wiki navigation">
-      <button
-        type="button"
-        class="nav-button"
-        id="tools-nav"
-        onclick="openTools()"
-      >Tools</button>
+      <button type="button" class="nav-button" id="tools-nav"
+        onclick="openTools()">Tools</button>
 
       <div id="axes-nav-container" class="nav-children" hidden>
-        <button
-          type="button"
-          class="nav-button"
-          id="axes-nav"
-          onclick="openAxes()"
-        >Axes</button>
+        <button type="button" class="nav-button" id="axes-nav"
+          onclick="openAxes()">Axes</button>
 
-        <div id="selected-axe-container" class="nav-children" hidden>
-          <button
-            type="button"
-            class="nav-button"
-            id="selected-axe-nav"
-            onclick="openSelectedAxe()"
-          ></button>
+        <div id="regular-axes-nav-container" class="nav-children" hidden>
+          <button type="button" class="nav-button" id="regular-axes-nav"
+            onclick="openRegularAxes()">Regular Axes</button>
+
+          <div id="selected-axe-container" class="nav-children" hidden>
+            <button type="button" class="nav-button" id="selected-axe-nav"
+              onclick="openSelectedAxe()"></button>
+          </div>
         </div>
       </div>
     </nav>
@@ -378,54 +332,55 @@ h2 {
 
   <main class="main-content">
 
-    <!-- HOME SCREEN: deliberately contains no buttons -->
+    <!-- Home screen deliberately contains no buttons -->
     <section id="home-page" class="page active">
       <h1>Welcome</h1>
       <p class="muted">Choose an option on the navigation to begin.</p>
     </section>
 
-    <!-- TOOLS -->
     <section id="tools-page" class="page">
       <h1>Tools</h1>
       <p class="muted">Browse the tools available in Oaklands.</p>
 
-      <button
-        type="button"
-        class="category-card"
-        onclick="openAxes()"
-      >
+      <button type="button" class="category-card" onclick="openAxes()">
         <h2>Axes</h2>
         <p>Browse axes and their details.</p>
       </button>
     </section>
 
-    <!-- AXES -->
     <section id="axes-page" class="page">
       <h1>Axes</h1>
+      <p class="muted">Browse the available axe categories.</p>
+
+      <button type="button" class="category-card"
+        onclick="openRegularAxes()">
+        <h2>Regular Axes</h2>
+        <p>Browse the regular axes and their details.</p>
+      </button>
+    </section>
+
+    <section id="regular-axes-page" class="page">
+      <h1>Regular Axes</h1>
       <p class="muted">Select an axe to view its details.</p>
 
-      <div id="axe-list" class="axe-list">
-        <button
-          type="button"
-          class="axe-card"
-          onclick="openItem('rusty')"
-        >
+      <div class="axe-list">
+        <button type="button" class="axe-card" onclick="openItem('rusty')">
           <h2>Rusty Axe</h2>
           <p class="tier">Tier 1</p>
         </button>
 
-        <button
-          type="button"
-          class="axe-card"
-          onclick="openItem('steel')"
-        >
+        <button type="button" class="axe-card" onclick="openItem('steel')">
           <h2>Steel Axe</h2>
           <p class="tier">Tier 2</p>
+        </button>
+
+        <button type="button" class="axe-card" onclick="openItem('refined')">
+          <h2>Refined Axe</h2>
+          <p class="tier">Tier 3</p>
         </button>
       </div>
     </section>
 
-    <!-- ITEM DETAILS -->
     <section id="item-page" class="page">
       <h1 id="item-title">Rusty Axe</h1>
       <p class="tier" id="item-tier">Tier 1</p>
@@ -433,7 +388,6 @@ h2 {
       <div class="divider"></div>
 
       <div class="item-details">
-
         <section class="detail-section">
           <h2>Tool Statistics</h2>
           <div class="stats-box">
@@ -445,7 +399,6 @@ h2 {
           <h2>Item Description</h2>
           <div id="item-description" class="description-box"></div>
         </section>
-
       </div>
     </section>
 
@@ -487,6 +440,24 @@ const items = {
       "Forged with 100% steel, this will do some serious damage (but faster).",
       "It's an upgrade from the Rusty Axe by a little and is tier 2 so everybody can do that tier's ores! Happy grinding."
     ]
+  },
+
+  refined: {
+    name: "Refined Axe",
+    tier: 3,
+    stats: [
+      ["Swing Time", "1.75s"],
+      ["Swing Power", "1.5"],
+      ["Swing Distance", "15 studs"],
+      ["Store", "Oak Depot"],
+      ["Price", "$27,000"],
+      ["Obtainability", "Obtainable"]
+    ],
+    description: [
+      'After many months of hard work, the axe was finally completed. Eron named it the "Tall Refined Axe," (later mistranslated to Refined Axe) and it was truly a work of art. The axe has a long, slender handle made of the strongest fiberglass, and a blade forged from the rarest steel.',
+      "The Refined Axe is an upgrade compared to the other axes, but it is nowhere near the best. It is a clear upgrade over the Steel Axe.",
+      "Original name: Tall Refined Axe."
+    ]
   }
 };
 
@@ -497,19 +468,22 @@ const pages = {
   home: document.getElementById("home-page"),
   tools: document.getElementById("tools-page"),
   axes: document.getElementById("axes-page"),
+  regularAxes: document.getElementById("regular-axes-page"),
   item: document.getElementById("item-page")
 };
 
 const toolsNav = document.getElementById("tools-nav");
 const axesNavContainer = document.getElementById("axes-nav-container");
 const axesNav = document.getElementById("axes-nav");
-const selectedAxeContainer = document.getElementById("selected-axe-container");
+const regularAxesNavContainer =
+  document.getElementById("regular-axes-nav-container");
+const regularAxesNav = document.getElementById("regular-axes-nav");
+const selectedAxeContainer =
+  document.getElementById("selected-axe-container");
 const selectedAxeNav = document.getElementById("selected-axe-nav");
 
 function showPage(pageName) {
-  if (!Object.prototype.hasOwnProperty.call(pages, pageName)) {
-    return;
-  }
+  if (!Object.prototype.hasOwnProperty.call(pages, pageName)) return;
 
   currentPage = pageName;
 
@@ -523,20 +497,26 @@ function showPage(pageName) {
 function updateNavigation() {
   toolsNav.classList.toggle("active", currentPage === "tools");
 
-  /*
-   * Home: only Tools is visible.
-   * Tools: only Tools is visible in the sidebar.
-   * Axes: Tools and Axes are visible.
-   * Item: Tools, Axes and the selected item are visible.
-   *
-   * The unselected axe is never displayed in the item sidebar.
-   */
-  const showAxes = currentPage === "axes" || currentPage === "item";
+  const showAxes =
+    currentPage === "axes" ||
+    currentPage === "regularAxes" ||
+    currentPage === "item";
 
   axesNavContainer.hidden = !showAxes;
   axesNav.classList.toggle("active", currentPage === "axes");
 
-  const showSelectedItem = currentPage === "item" && currentItem !== null;
+  const showRegularAxes =
+    currentPage === "regularAxes" || currentPage === "item";
+
+  regularAxesNavContainer.hidden = !showRegularAxes;
+  regularAxesNav.classList.toggle(
+    "active",
+    currentPage === "regularAxes"
+  );
+
+  const showSelectedItem =
+    currentPage === "item" && currentItem !== null;
+
   selectedAxeContainer.hidden = !showSelectedItem;
 
   if (showSelectedItem) {
@@ -545,11 +525,6 @@ function updateNavigation() {
   } else {
     selectedAxeNav.classList.remove("active");
   }
-}
-
-function openHome() {
-  currentItem = null;
-  showPage("home");
 }
 
 function openTools() {
@@ -562,13 +537,15 @@ function openAxes() {
   showPage("axes");
 }
 
+function openRegularAxes() {
+  currentItem = null;
+  showPage("regularAxes");
+}
+
 function openItem(itemId) {
-  if (!Object.prototype.hasOwnProperty.call(items, itemId)) {
-    return;
-  }
+  if (!Object.prototype.hasOwnProperty.call(items, itemId)) return;
 
   currentItem = itemId;
-
   const item = items[itemId];
 
   document.getElementById("item-title").textContent = item.name;
@@ -581,9 +558,7 @@ function openItem(itemId) {
 }
 
 function openSelectedAxe() {
-  if (currentItem !== null) {
-    openItem(currentItem);
-  }
+  if (currentItem !== null) openItem(currentItem);
 }
 
 function renderStats(item) {
@@ -631,7 +606,7 @@ function renderDescription(item) {
   });
 }
 
-/* Start on the home screen, without home-screen buttons. */
+/* Start on the home screen with no home-screen buttons. */
 showPage("home");
 </script>
 </body>
